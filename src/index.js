@@ -22,7 +22,28 @@ function renderImage (imgUrl) {
     container.appendChild(img)
 }
 
+function dogList(breed) {
+    let ul = document.getElementById('dog-breeds')
+    let li = document.createElement('li')
+    li.textContent = breed;
+    li.style.cursor = 'pointer'
+    li.addEventListener('click', function() {
+       
+        li.style.color="blue"
+        
+    })
+    ul.appendChild(li)
+    
+}
+
 fetchImage(imgUrl)
+
+
+function dogKeys(object){
+    for (const property in object) {
+       dogList(property)
+      }
+}
 
 function dogBreeds (dogUrl) {
     fetch (dogUrl)
@@ -30,7 +51,7 @@ function dogBreeds (dogUrl) {
         return response.json ()
     })
     .then(function(dogData){
-        console.log(dogData.message)
+        dogKeys(dogData.message)
     })
 }
 
