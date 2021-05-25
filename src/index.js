@@ -39,24 +39,44 @@ function dogList(breed) {
 fetchImage(imgUrl)
 
 
-function dogKeys(object){
-    for (const property in object) {
-       dogList(property)
-      }
+function dogKeys(object, filter){
+    if(filter){
+        for (const property in object) {
+            console.log(property[0])
+        if (filter === property[0]){
+            dogList(property)
+        }
+        }
+    console.log(filter)
+    }else {
+        for (const property in object) {
+            dogList(property)     
+    }
+    }
 }
 
-function dogBreeds (dogUrl) {
-    fetch (dogUrl)
+dogBreeds(breedUrl, 'a')
+
+function dogBreeds (dogUrl, filter) {
+    return fetch (dogUrl)
     .then(function(response){
         return response.json ()
     })
     .then(function(dogData){
-        dogKeys(dogData.message)
+        dogKeys(dogData.message, filter)
     })
 }
 
-dogBreeds(breedUrl)
-// After the first challenge is completed, add JavaScript that:
+function dropSelector (){
+    let dropDown = document.getElementById('breed-dropdown')
+    document.addEventListener('change', function (e){
+    let filter = e.target.value
+    if (filter){
+    let ul = document.getElementById('dog-breeds') 
+        ul.innerHTML = ""
+    }
+    dogBreeds(breedUrl, filter)
+    })
+}
 
-// on page load, fetches all the dog breeds using the url above ⬆️
-// adds the breeds to the page in the <ul> provided in index.html
+document.addEventListener("DOMContentLoaded", dropSelector)
